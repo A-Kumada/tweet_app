@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-6">
+      <div class="text-right">
+        <%= link_to "プロフィール編集",edit_user_path(@user),class:"btn btn-success" %>
+      </div>
+      <%#= image_tag @user.image, class: "profile-img" %>
+      <h5 class="font-weight-bold"><%= @user.name %></h5>
+
+      <p><%= @user.profile %></p>
+      <p><%= @user.birthday %></p>
+      
+
+
+    </div>
+  </div>
+</div>

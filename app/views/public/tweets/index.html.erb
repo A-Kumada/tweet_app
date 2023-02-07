@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-7">
+    <%= form_with model: @tweet, url: tweets_path do |f| %>
+      <%= f.text_area :content, :size=>"50x5",:placeholder=>"いまどうしてる？" %>
+      <div class="text-right">
+        <%= f.submit "ツイートする", class:"btn btn-primary rounded-pill" %>
+      </div>
+    <% end %>
+
+    <% @tweets.each do |tweet| %>
+    <div class="border">
+      <%= tweet.user.name %><br>
+      <%= tweet.content %><br>
+      
+    </div>
+    <% end %>
+
+
+    </div>
+  </div>
+</div>
