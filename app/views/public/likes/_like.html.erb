@@ -1,0 +1,13 @@
+<% if user_signed_in? %>
+  <% if current_user.liked_by?(tweet.id) %>
+    <td><%= link_to destroy_like_path(tweet), method: :DELETE, remote: true do %>
+    ♥
+    <% end %>
+    <%= tweet.likes.count %></td>
+  <% else %>
+    <td><%= link_to create_like_path(tweet), method: :POST, remote: true do %>
+    ♡
+    <% end %>
+    <%= tweet.likes.count %></td>
+  <% end %>
+<% end %>

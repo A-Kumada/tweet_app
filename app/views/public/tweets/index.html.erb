@@ -1,7 +1,8 @@
 <div class="container">
   <div class="row">
 
-    <div class="col-md-7">
+    <div class="col-md-6">
+
     <%= form_with model: @tweet, url: tweets_path do |f| %>
       <%= f.text_area :content, :size=>"50x5",:placeholder=>"いまどうしてる？" %>
       <div class="text-right">
@@ -11,13 +12,31 @@
 
     <% @tweets.each do |tweet| %>
     <div class="border">
-      <%= tweet.user.name %><br>
+
+      <% if current_user == tweet.user %>
+        <%= link_to "削除する",tweet_path(tweet),method: :delete, "data-confirm" => "本当に削除しますか？" %>
+      <% end %>
+
+      <% if tweet.user.image.attached? %>
+        <%= image_tag tweet.user.image, class: "profile-img" %>
+      <% else %>
+        <%= image_tag 'no_image.jpeg', class: "profile-img" %>
+      <% end %>
+
+      <%= link_to user_path(tweet.user) do %>
+      <%= tweet.user.name %>
+      <% end %><br>
+
       <%= tweet.content %><br>
-      
+      <%= link_to tweet_path(tweet) do %>
+      💬<%= tweet.comments.count %>
+      <% end %>
+
+      <span id="likes_buttons_<%= tweet.id %>">
+        <%= render partial: 'public/likes/like', locals: {tweet: tweet} %>
+      </span>
+
     </div>
     <% end %>
 
 
-    </div>
-  </div>
-</div>

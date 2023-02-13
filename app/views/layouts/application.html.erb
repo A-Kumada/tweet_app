@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
     <title>TweetApp</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -16,6 +16,7 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <header>
+
     <% if user_signed_in? %>
       <li>
         <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>

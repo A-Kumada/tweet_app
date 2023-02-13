@@ -1,2 +1,16 @@
-<h1>Tweets#show</h1>
-<p>Find me in app/views/tweets/show.html.erb</p>
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-6">
+      <% if @user.image.attached? %>
+        <%= image_tag @user.image, class: "profile-img" %>
+      <% else %>
+        <%= image_tag 'no_image.jpeg', class: "profile-img" %>
+      <% end %>
+
+      <%= @tweet.user.name %><br>
+      <%= @tweet.content %><br>
+      <%= @tweet.updated_at.strftime("%H:%M・%Y年%m月%d日") %>
+    </div>
+  </div>
+</div>

@@ -11,9 +11,15 @@ import "channels"
 import "jquery";
 import "popper.js";
 import "bootstrap";
-import "../stylesheets/application" 
+import "../stylesheets/application"
 import '@fortawesome/fontawesome-free/js/all'
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+// 追記
+require("@rails/ujs").start()
+// require("turbolinks").start()
+require("@rails/activestorage").start()
+require("channels")
