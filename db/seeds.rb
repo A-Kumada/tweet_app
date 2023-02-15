@@ -5,24 +5,28 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
 User.create!(name:  "Example User",
-             email: "example@railstutorial.org",
-             password:              "foobar",
-             password_confirmation: "foobar",
-             admin:     true,
-             activated: true,
-             activated_at: Time.zone.now)
+             email: ENV['SANMPLEUSER_MAIL'],
+             profile: "サンプル",
+             birthday: "19900202",
+             password: ENV['SAMPLEUSER_PASS'],
+             password_confirmation: ENV['SAMPLEUSER_PASSCONF'],
+             is_active: true)
 
 99.times do |n|
   name  = Faker::Name.name
   email = "example-#{n+1}@railstutorial.org"
+  profile = "サンプル#{n+1}"
+  birthday = "19900301"
   password = "password"
   User.create!(name:  name,
                email: email,
+               profile: profile,
+               birthday: birthday,
                password:              password,
                password_confirmation: password,
-               activated: true,
-               activated_at: Time.zone.now)
+               is_active: true)
 end
 
 # マイクロポスト

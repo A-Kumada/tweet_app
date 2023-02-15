@@ -11,12 +11,16 @@
         <%= image_tag 'no_image.jpeg', class: "profile-img" %>
       <% end %>
 
+      <%= render 'follow_form' if signed_in? %>
+
       <h5 class="font-weight-bold"><%= @user.name %></h5>
 
       <p><%= @user.profile %></p>
       <p><%= @user.birthday %></p>
 
-
+      <section class="stats">
+        <%= render 'public/shared/stats' %>
+      </section>
 
     </div>
   </div>

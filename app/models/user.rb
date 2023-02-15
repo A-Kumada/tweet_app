@@ -32,6 +32,12 @@ class User < ApplicationRecord
     likes.where(tweet_id: tweet_id).exists?
   end
 
+  def feed
+    part_of_feed = "relationships.follower_id = :id or tweets.user_id = :id"
+    Tweet.left_outer_joins(user: :followers)
+             .where(part_of_feed, { id: id }).distinct
+  end
+
   def follow(other_user)
     following << other_user unless self == other_user
   end
@@ -42,6 +48,13 @@ class User < ApplicationRecord
 
   def following?(other_user)
     following.include?(other_user)
+  end
+
+  def feed
+    part_of_feed = "relationships.follower_id = :id or tweets.user_id = :id"
+    Tweet.left_outer_joins(user: :followers)
+             .where(part_of_feed, { id: id }).distinct
+             .includes(:user, image_attachment: :blob)
   end
 
   private

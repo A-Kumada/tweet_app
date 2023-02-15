@@ -3,7 +3,7 @@ before_action :authenticate_user!
 
   def index
     @tweet = Tweet.new
-    @tweets = Tweet.all.order(created_at: :desc)
+    @tweets = Tweet.page(params[:page]).order(created_at: :desc)
     @user = @tweet.user
     respond_to do |format|
     format.html
@@ -24,6 +24,8 @@ before_action :authenticate_user!
   def show
     @tweet = Tweet.find(params[:id])
     @user = @tweet.user
+    @comment = Comment.new
+    @comments = Comment.all.order(created_at: :desc)
   end
 
   def edit

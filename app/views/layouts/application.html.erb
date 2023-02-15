@@ -10,6 +10,7 @@
 
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
   </head>
 
   <body>
@@ -20,6 +21,9 @@
     <% if user_signed_in? %>
       <li>
         <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+      </li>
+      <li>
+        <%= link_to "ホーム",root_path %>
       </li>
     <% else %>
       <li>
