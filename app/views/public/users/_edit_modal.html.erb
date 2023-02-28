@@ -1,0 +1,41 @@
+
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-body">
+      <h5 class="modal-title">プロフィール画面を編集</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+        <div class="form-group field">
+          <%= form_with model: @user, local: false do |user| %>
+
+          <%= user.file_field :image, accept: "image/*" %><br><br>
+
+          <div class="border pt-2 pl-2">
+            <div class="user-page-label content">名前</div>
+            <%= user.text_field :name, style: "border: none",class: "message_box" %>
+          </div><br>
+
+          <div class="border pt-2 pl-2">
+            <div class="user-page-label">自己紹介</div>
+            <%= user.text_area :profile, style: "border: none", class:"content" %>
+          </div><br>
+
+          <div class="border p-2">
+            <div class="user-page-label">生年月日</div>
+            <%= user.date_select :birthday %>
+          </div><br>
+
+          <div class="border p-2">
+            <div class="user-page-label">メールアドレス</div>
+            <%= user.email_field :email, style: "border: none" %>
+          </div><br>
+
+          <%= user.submit "保存", class:"btn btn-success rounded-pill" %>
+        <% end %>
+
+        </div>
+      </div>
+
+  </div>
+</div>
+</div>

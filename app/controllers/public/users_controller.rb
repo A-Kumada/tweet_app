@@ -17,14 +17,24 @@ class Public::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
      #binding.pry
-    if @user.update(user_params)
-      flash[:success] = '変更しました'
-      redirect_to user_path(@user)
-    else
-      @user.update(is_active: "false")
-      @users = User.all
-      render:edit
-    end
+     respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.json { render :show, status: :ok, location: @user }
+        format.js { @status = "success"}
+      else
+        format.html { render :edit }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.js { @status = "fail" }
+      end
+     end
+    #if @user.update(user_params)
+      #flash[:success] = '変更しました'
+      #redirect_to user_path(@user)
+    #else
+      #@user.update(is_active: "false")
+      #render:edit
+    #end
   end
 
   def unsubscribe

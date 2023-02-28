@@ -25,7 +25,7 @@ before_action :authenticate_user!
     @tweet = Tweet.find(params[:id])
     @user = @tweet.user
     @comment = Comment.new
-    @comments = Comment.all.order(created_at: :desc)
+    @comments = @tweet.comments.order(created_at: :desc)
   end
 
   def edit
