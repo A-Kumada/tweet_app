@@ -2,6 +2,7 @@
   <div class="row">
 
     <div class="col-md-6">
+      
       <% if @user.image.attached? %>
         <%= image_tag @user.image, class: "profile-img" %>
       <% else %>
@@ -36,7 +37,7 @@
       <%= comment.user.name %>
       <% end %><br>
 
-      <%= comment.tweet_comment %><br>
+      <%= simple_format(comment.tweet_comment) %>
 
       <span id="likes_buttons_<%= @tweet.id %>">
         <%= render partial: 'public/likes/like', locals: {tweet: @tweet} %>
@@ -44,8 +45,6 @@
 
     </div>
     <% end %>
-<%= paginate @tweets %>
-
     </div>
   </div>
 </div>

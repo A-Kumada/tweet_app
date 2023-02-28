@@ -1,41 +1,57 @@
+
 <div class="container">
   <div class="row">
 
     <div class="col-md-6">
-
-    <%= form_with model: @tweet, url: tweets_path do |f| %>
-      <%= f.text_area :content, :size=>"50x5",:placeholder=>"いまどうしてる？" %>
-      <div class="text-right">
-        <%= f.submit "ツイートする", class:"btn btn-primary rounded-pill" %>
-      </div>
-    <% end %>
-
-    <% @tweets.each do |tweet| %>
     <div class="border">
-
-      <% if current_user == tweet.user %>
-        <%= link_to "削除する",tweet_path(tweet),method: :delete, "data-confirm" => "本当に削除しますか？" %>
-      <% end %>
-
-      <% if tweet.user.image.attached? %>
-        <%= image_tag tweet.user.image, class: "profile-img" %>
+      <% if @user.image.attached? %>
+        <%= image_tag @user.image, class: "profile-img" %>
       <% else %>
         <%= image_tag 'no_image.jpeg', class: "profile-img" %>
       <% end %>
+      <%= form_with model: @tweet, url: tweets_path do |f| %>
+        <%= f.text_area :content, style: "border: none",class: "content", :size=>"50x4",:placeholder=>"いまどうしてる？" %>
+        <div class="text-right">
+          <%= f.submit "ツイートする", class:"btn btn-primary rounded-pill" %>
+        </div>
 
+      <% end %></div>
+
+    <% @tweets.each do |tweet| %>
+    <div class="border d-flex">
+
+    <% if tweet.user.image.attached? %>
+      <%= image_tag tweet.user.image, class: "profile-img" %>
+    <% else %>
+      <%= image_tag 'no_image.jpeg', class: "profile-img" %>
+    <% end %>
+
+    <div class="pt-2 pb-2 pl-2 content">
+      <span class="text-dark">
       <%= link_to user_path(tweet.user) do %>
-      <%= tweet.user.name %>
-      <% end %><br>
+        <span class="user-name">
+          <%= tweet.user.name %>
+        </span>
+      <% end %>
+      <span class="tweet-date">・<%= tweet.updated_at.strftime("%m月%d日") %></span>
+      <br>
+      </span>
+      <%= simple_format(tweet.content) %>
 
-      <%= tweet.content %><br>
       <%= link_to tweet_path(tweet) do %>
-      💬<%= tweet.comments.count %>
+        💬<%= tweet.comments.count %>
       <% end %>
 
-      <span id="likes_buttons_<%= tweet.id %>">
+      <span id="likes_buttons_<%= tweet.id %>" class="pl-4">
         <%= render partial: 'public/likes/like', locals: {tweet: tweet} %>
       </span>
 
+    </div>
+    <div class="text-end">
+      <% if current_user == tweet.user %>
+        <%= link_to "✖️",tweet_path(tweet),method: :delete,"data-confirm" => "本当に削除しますか？" %>
+      <% end %>
+    </div>
     </div>
     <% end %>
 

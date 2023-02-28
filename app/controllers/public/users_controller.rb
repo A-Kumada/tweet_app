@@ -3,7 +3,7 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @tweets = Tweet.all
+    @tweets = current_user.tweets.order(created_at: :desc)
   end
 
   def edit
@@ -16,6 +16,7 @@ class Public::UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+     #binding.pry
     if @user.update(user_params)
       flash[:success] = '変更しました'
       redirect_to user_path(@user)
@@ -41,13 +42,13 @@ class Public::UsersController < ApplicationController
     @title = "Following"
     @user  = User.find(params[:id])
     @users = @user.following.page(params[:page])
-    render 'show_follow', status: :unprocessable_entity
+    render 'public/users/show_follow', status: :unprocessable_entity
   end
 
   def followers
     @title = "Followers"
     @user  = User.find(params[:id])
-    @users = @user.followers.paginate(page: params[:page])
+    @users = @user.followers.page(params[:page])
     render 'show_follow', status: :unprocessable_entity
   end
 

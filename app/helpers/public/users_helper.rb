@@ -1,2 +1,3 @@
 module Public::UsersHelper
+  
 end

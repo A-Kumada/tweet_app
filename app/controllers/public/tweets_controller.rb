@@ -4,7 +4,7 @@ before_action :authenticate_user!
   def index
     @tweet = Tweet.new
     @tweets = Tweet.page(params[:page]).order(created_at: :desc)
-    @user = @tweet.user
+    @user = current_user
     respond_to do |format|
     format.html
     format.js # js形式で送信された場合はこちらが適応され、js.erbを探す

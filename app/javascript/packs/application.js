@@ -14,13 +14,15 @@ import "bootstrap";
 import "../stylesheets/application"
 import '@fortawesome/fontawesome-free/js/all'
 import "@hotwired/turbo-rails"
+import "@hotwired/turbo-rails"
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
+require('jquery')
 // 追記
-require("@rails/ujs").start()
-// require("turbolinks").start()
+require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
+

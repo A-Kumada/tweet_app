@@ -1,27 +1,79 @@
 <div class="container">
   <div class="row">
 
-    <div class="col-md-6 border">
-      <div class="text-right">
-        <%= link_to "プロフィール編集",edit_user_path(@user),class:"btn btn-success" %>
+    <div class="col-md-6">
+      <div class="border p-3">
+        <div class="text-right">
+          <%= link_to "プロフィール編集",edit_user_path(@user),class:"btn btn-success rounded-pill" %>
+        </div>
+        <% if @user.image.attached? %>
+          <%= image_tag @user.image, class: "profile-img-top" %>
+        <% else %>
+          <%= image_tag 'no_image.jpeg', class: "profile-img-top" %>
+        <% end %>
+
+        <%= render 'follow_form' if signed_in? %>
+
+        <h5 class="font-weight-bold"><%= @user.name %></h5>
+
+        <p><%= @user.profile %></p>
+        <p><%= @user.birthday.strftime('%Y年%m月%d日')%></p>
+
+        <section class="stats">
+          <%= render 'public/shared/stats' %>
+        </section>
       </div>
-      <% if @user.image.attached? %>
-        <%= image_tag @user.image, class: "profile-img" %>
+
+      <% @tweets.each do |tweet| %>
+      <div class="border d-flex p-2 content">
+
+      <% if tweet.user.image.attached? %>
+        <%= image_tag tweet.user.image, class: "profile-img" %>
       <% else %>
         <%= image_tag 'no_image.jpeg', class: "profile-img" %>
       <% end %>
 
-      <%= render 'follow_form' if signed_in? %>
+      <div class="pt-2 pb-2 pl-2 content">
+        <span class="user-"><%= tweet.user.name %></span>
+        <span class="tweet-date">・<%= tweet.updated_at.strftime("%m月%d日") %></span>
+        <br>
+        <%= tweet.content %><br>
 
-      <h5 class="font-weight-bold"><%= @user.name %></h5>
+        <span class="social-icon">
+        <%= link_to tweet_path(tweet) do %>
+          💬 <%= tweet.comments.count %>
+        <% end %>
+        </span>
 
-      <p><%= @user.profile %></p>
-      <p><%= @user.birthday %></p>
+        <span id="likes_buttons_<%= tweet.id %>" class="pl-4">
+          <%= render partial: 'public/likes/like', locals: {tweet: tweet} %>
+        </span>
 
-      <section class="stats">
-        <%= render 'public/shared/stats' %>
-      </section>
+      </div>
+      <div class="text-end">
+        <% if current_user == tweet.user %>
+          <%= link_to "✖️",tweet_path(tweet),method: :delete,"data-confirm" => "本当に削除しますか？" %>
+        <% end %>
+      </div>
+      </div>
+    <% end %>
+
 
     </div>
   </div>
 </div>
+
+
+<script>
+
+$(function(){
+  $('.social-icon').hover(
+  function() {
+    $(this).css({'color':'red'},300);
+  },
+  function() {
+    $(this).css({'color':'black'},300);
+  }
+  );
+});
+</script>
