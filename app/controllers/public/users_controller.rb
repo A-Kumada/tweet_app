@@ -3,7 +3,7 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @tweets = current_user.tweets.order(created_at: :desc)
+    @tweets = @user.tweets.order(created_at: :desc)
   end
 
   def edit

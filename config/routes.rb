@@ -19,7 +19,7 @@ devise_for :users,skip: [:passwords], controllers: {
     end
     resources :tweets, only: [:create, :index, :show, :edit, :update, :destroy] do
       #resource :likes, only: [:create, :destroy]
-      resources :comments, only: [:create, :destroy]
+      resources :comments, only: [:create, :destroy] 
     end
     resources :relationships, only: [:create, :destroy]
   end

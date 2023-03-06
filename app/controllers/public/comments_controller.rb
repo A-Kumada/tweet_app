@@ -3,6 +3,7 @@ class Public::CommentsController < ApplicationController
 
   def create
     @tweet = Tweet.find(params[:tweet_id])
+    #binding.pry
     @comment = current_user.comments.new(comment_params)
     @comment.tweet_id = @tweet.id
     if @comment.save
@@ -20,6 +21,6 @@ class Public::CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:tweet_comment)
+    params.require(:comment).permit(:tweet_comment,:reply_comment).merge(user_id: current_user.id, tweet_id: params[:product_id])
   end
 end

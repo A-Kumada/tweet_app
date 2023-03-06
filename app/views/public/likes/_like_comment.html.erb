@@ -1,0 +1,17 @@
+<% if user_signed_in? %>
+  <% if current_user.liked_by?(comment.id) %>
+    <td>
+      <%= link_to destroy_like_path(comment), method: :DELETE, remote: true do %>
+        ♥
+      <% end %>
+      <span class="pl-3"><%= comment.likes.count %></span>
+    </td>
+  <% else %>
+    <td>
+      <%= link_to create_like_path(comment), method: :POST, remote: true do %>
+        ♡
+      <% end %>
+      <span class="pl-3"><%= comment.likes.count %></span>
+    </td>
+  <% end %>
+<% end %>

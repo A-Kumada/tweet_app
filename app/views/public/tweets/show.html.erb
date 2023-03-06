@@ -2,60 +2,80 @@
   <div class="row">
 
     <div class="col-md-6">
-
-      <% if @user.image.attached? %>
-        <%= image_tag @user.image, class: "profile-img" %>
-      <% else %>
-        <%= image_tag 'no_image.jpeg', class: "profile-img" %>
-      <% end %>
-
-      <span class="user-name"><%= @tweet.user.name %><br></span>
-      <div class="pt-2 pb-2"><%= @tweet.content %></div>
-      <%= @tweet.updated_at.strftime("%H:%M・%Y年%m月%d日") %>
-
-      <div class="border">
-        <%= form_with model: @comment, url: tweet_comments_path(tweet_id: @tweet) do |f| %>
-        <div class="tweet-name">返信先:<%= @tweet.user.name %>さん</div>
-        <%= f.text_area :tweet_comment, class:"content", :size=>"50x3", style: "border: none", :placeholder=>"返信をツイート" %>
-        <div class="text-right">
-          <%= f.submit "返信", class:"btn btn-primary rounded-pill" %>
-        </div>
+      <div class="border p-2">
+        <% if @user.image.attached? %>
+          <%= image_tag @user.image, class: "profile-img" %>
+        <% else %>
+          <%= image_tag 'no_image.jpeg', class: "profile-img" %>
         <% end %>
-      </div>
 
-    <% @comments.each do |comment| %>
-    <div class="border d-flex p-1">
+        <span class="user-name pl-2"><%= @tweet.user.name %><br></span>
+        <div class="pt-2 pb-2"><%= @tweet.content %></div>
+        <span class="tweet-date"><%= @tweet.updated_at.strftime("%H:%M・%Y年%m月%d日") %></span>
 
-      <% if comment.user.image.attached? %>
-        <%= image_tag comment.user.image, class: "profile-img" %>
-      <% else %>
-        <%= image_tag 'no_image.jpeg', class: "profile-img" %>
-      <% end %>
-
-      <div class="pt-2 pb-2 pl-2 content">
-        <span class="user-name">
-          <%= link_to user_path(comment.user) do %>
-          <%= comment.user.name %>
+        <div class="pt-1">
+          <%= link_to tweet_path(@tweet) do %>
+            💬<%= @tweet.comments.count %>
           <% end %>
-        </span>
-        <span class="tweet-date">・<%= comment.updated_at.strftime("%m月%d日") %></span>
-        <div class="tweet-name pb-1">返信先:<%= @tweet.user.name %>さん</div>
-
-        <%= simple_format(comment.tweet_comment) %>
-
-        <span id="likes_buttons_<%= @tweet.id %>">
-          <%= render partial: 'public/likes/like', locals: {tweet: @tweet} %>
-        </span>
+          <span id="likes_buttons_<%= @tweet.id %>" class="pl-4">
+            <%= render partial: 'public/likes/like', locals: {tweet: @tweet} %>
+          </span>
+        </div>
       </div>
 
-      <div class="text-end">
-        <% if current_user == comment.user %>
-          <%= link_to "✖️",tweet_comment_path(comment.tweet, comment),method: :delete, "data-confirm" => "本当に削除しますか？" %>
+      <div class="border p-1">
+        <%= form_with model: @comment, url: tweet_comments_path(tweet_id: @tweet) do |f| %>
+          <div class="tweet-name">返信先:<%= @tweet.user.name %>さん</div>
+          <%= f.text_area :tweet_comment, class:"content", :size=>"50x3", style: "border: none", :placeholder=>"返信をツイート" %>
+          <div class="text-right">
+            <%= f.submit "返信", class:"btn btn-primary rounded-pill" %>
+          </div>
         <% end %>
       </div>
 
+      <% @comments.each do |comment| %>
+      <div class="border d-flex p-1">
+
+        <% if comment.user.image.attached? %>
+          <%= image_tag comment.user.image, class: "profile-img" %>
+        <% else %>
+          <%= image_tag 'no_image.jpeg', class: "profile-img" %>
+        <% end %>
+
+        <div class="pt-2 pb-2 pl-2 content">
+          <span class="user-name">
+            <%= link_to user_path(comment.user) do %>
+              <%= comment.user.name %>
+            <% end %>
+          </span>
+          <span class="tweet-date">・<%= comment.updated_at.strftime("%m月%d日") %></span>
+          <div class="tweet-name pb-1">返信先:<%= @tweet.user.name %>さん</div>
+          <%= simple_format(comment.tweet_comment) %>
+        </div>
+
+        <div class="text-end">
+          <% if current_user == comment.user %>
+            <%= link_to "✖️",tweet_comment_path(comment.tweet, comment),method: :delete, "data-confirm" => "本当に削除しますか？" %>
+          <% end %>
+        </div>
+      </div>
+    
+      <%= form_with model: [@tweet, @new_comments] do |f| %>
+        <ul class="collapsible">
+          <li>
+            <div class="collapsible-header">コメントに返信をする</div>
+            <div class="collapsible-body">
+              <%= f.text_field :tweet_comment %>
+              <%= f.hidden_field :reply_comment, :value => comment.id  %>
+              <%= button_tag type:"submit", class: "waves-effect waves-light btn" do %>
+                <%= f.submit "投稿する" %>
+              <% end %>
+            </div>
+          </li>
+        </ul>
+      <% end %>
+      <% end %>
     </div>
-    <% end %>
-    </div>
+
   </div>
 </div>

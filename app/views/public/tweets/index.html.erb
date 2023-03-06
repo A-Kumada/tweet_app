@@ -1,4 +1,3 @@
-
 <div class="container">
   <div class="row">
 
@@ -20,8 +19,9 @@
     </div>
 
     <% @tweets.each do |tweet| %>
+    <a href="/">
     <div class="border d-flex">
-
+    
     <%= link_to user_path(tweet.user) do %>
       <% if tweet.user.image.attached? %>
         <%= image_tag tweet.user.image, class: "profile-img" %>
@@ -30,7 +30,7 @@
       <% end %>
     <% end %>
 
-    <div class="pt-2 pb-2 pl-2 content">
+    <div class="pt-2 pb-2 pl-3 content">
       <span class="text-dark">
       <%= link_to user_path(tweet.user) do %>
         <span class="user-name">
@@ -56,6 +56,7 @@
         <%= link_to "✖️",tweet_path(tweet),method: :delete,"data-confirm" => "本当に削除しますか？" %>
       <% end %>
     </div>
+    </a>
     </div>
     <% end %>
 

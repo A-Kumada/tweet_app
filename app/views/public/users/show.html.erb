@@ -4,10 +4,11 @@
     <div class="col-md-6">
       <div id="edit-modal"></div>
       <div class="border p-3">
-
+      <% if current_user == @user %>
         <div class="text-right">
           <%= link_to "プロフィール編集",edit_user_path(@user),class:"btn btn-success rounded-pill ", remote: true %>
         </div>
+      <% end %>
 
 
         <% if @user.image.attached? %>
@@ -37,11 +38,11 @@
         <%= image_tag 'no_image.jpeg', class: "profile-img" %>
       <% end %>
 
-      <div class="pt-2 pb-2 pl-2 content">
-        <span class="user-"><%= tweet.user.name %></span>
+      <div class="pt-2 pb-2 pl-3 content">
+        <span class="user-name"><%= tweet.user.name %></span>
         <span class="tweet-date">・<%= tweet.updated_at.strftime("%m月%d日") %></span>
         <br>
-        <%= tweet.content %><br>
+        <%= tweet.content %><br><br>
 
         <span class="social-icon">
         <%= link_to tweet_path(tweet) do %>
@@ -62,22 +63,6 @@
       </div>
     <% end %>
 
-
     </div>
   </div>
 </div>
-
-
-<script>
-
-$(function(){
-  $('.social-icon').hover(
-  function() {
-    $(this).css({'color':'red'},300);
-  },
-  function() {
-    $(this).css({'color':'black'},300);
-  }
-  );
-});
-</script>
